@@ -12,11 +12,15 @@ const ProjectCard = ({ project, index }) => {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    navigate(`/project/${project.slug}`);
+  };
+
   return (
     <motion.div
       ref={ref}
       className="group cursor-pointer"
-      onClick={() => navigate(`/project/${project.slug}`)}
+      onClick={handleClick}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
@@ -76,17 +80,21 @@ const ProjectCard = ({ project, index }) => {
             </motion.div>
           </div>
 
-          {/* Tags */}
+          {/* Tags - Simplified without map */}
           <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag, tagIndex) => (
-              <Badge
-                key={tagIndex}
-                variant="secondary"
-                className="bg-slate-100 text-slate-600 font-normal"
-              >
-                {tag}
+            <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-normal">
+              {project.tags[0]}
+            </Badge>
+            {project.tags[1] && (
+              <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-normal">
+                {project.tags[1]}
               </Badge>
-            ))}
+            )}
+            {project.tags[2] && (
+              <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-normal">
+                {project.tags[2]}
+              </Badge>
+            )}
           </div>
         </div>
       </motion.div>
@@ -113,11 +121,12 @@ const ProjectsSection = () => {
           </div>
         </FadeUp>
 
-        {/* Projects Grid */}
+        {/* Projects Grid - Explicit rendering */}
         <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+          {projects[0] && <ProjectCard project={projects[0]} index={0} />}
+          {projects[1] && <ProjectCard project={projects[1]} index={1} />}
+          {projects[2] && <ProjectCard project={projects[2]} index={2} />}
+          {projects[3] && <ProjectCard project={projects[3]} index={3} />}
         </div>
       </div>
     </section>
