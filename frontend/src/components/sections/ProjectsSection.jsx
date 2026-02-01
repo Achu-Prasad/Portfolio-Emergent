@@ -1,98 +1,92 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { Badge } from '../ui/badge';
-import { FadeUp, HoverScale } from '../animations/MotionWrapper';
+import { projects } from '../../data/mock';
+import { FadeUp } from '../animations/MotionWrapper';
+import { useNavigate } from 'react-router-dom';
 
-const ProjectCard = ({ index, title, client, role, outcome, description, tags, isHovered, onHover, onLeave }) => {
+const ProjectCard = ({ project, index }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const navigate = useNavigate();
 
   return (
     <motion.div
       ref={ref}
       className="group cursor-pointer"
-      onMouseEnter={onHover}
-      onMouseLeave={onLeave}
+      onClick={() => navigate(`/project/${project.slug}`)}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
     >
       <motion.div 
-        className="border border-slate-200 rounded-2xl p-8 lg:p-10 bg-white"
+        className="bg-white rounded-2xl overflow-hidden border border-slate-200"
         whileHover={{ 
           borderColor: "rgba(148, 163, 184, 0.5)",
           boxShadow: "0 20px 40px -15px rgba(0,0,0,0.1)",
-          y: -5
+          y: -8
         }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
       >
-        <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+        {/* Image Preview */}
+        <div className="relative aspect-[16/10] overflow-hidden">
+          <motion.img
+            src={project.thumbnail}
+            alt={project.title}
+            className="w-full h-full object-cover"
+            whileHover={{ scale: 1.08 }}
+            transition={{ duration: 0.6 }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          
+          {/* Project Type Badge */}
+          <div className="absolute top-4 left-4">
+            <span className="text-xs uppercase tracking-wider text-white font-medium bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
+              {project.type}
+            </span>
+          </div>
+
           {/* Project Number */}
-          <motion.div 
-            className="text-6xl font-light text-slate-200 leading-none"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ delay: index * 0.1 + 0.2, type: "spring", stiffness: 200 }}
-          >
-            {String(index + 1).padStart(2, '0')}
-          </motion.div>
+          <div className="absolute bottom-4 right-4">
+            <span className="text-5xl font-light text-white/30">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+          </div>
+        </div>
 
-          {/* Project Info */}
-          <div className="flex-1 space-y-4">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h3 className="text-xl lg:text-2xl font-medium text-slate-900 group-hover:text-slate-700 transition-colors">
-                  {title}
-                </h3>
-                <p className="text-slate-500 mt-1">
-                  {client} • {role}
-                </p>
-              </div>
-              <motion.div 
-                className="p-3 rounded-full bg-slate-100 group-hover:bg-slate-900 transition-colors"
-                animate={{ rotate: isHovered ? 45 : 0 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <ArrowUpRight size={20} className="text-slate-600 group-hover:text-white transition-colors" />
-              </motion.div>
+        {/* Project Info */}
+        <div className="p-6 lg:p-8">
+          <div className="flex items-start justify-between gap-4 mb-3">
+            <div>
+              <h3 className="text-xl lg:text-2xl font-medium text-slate-900 group-hover:text-slate-700 transition-colors">
+                {project.title}
+              </h3>
+              <p className="text-slate-500 mt-1">
+                {project.subtitle}
+              </p>
             </div>
-
-            <p className="text-slate-600 leading-relaxed max-w-2xl">{description}</p>
-
-            {/* Outcome */}
-            <motion.p 
-              className="text-slate-900 font-medium"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: index * 0.1 + 0.4 }}
-            >
-              {outcome}
-            </motion.p>
-
-            {/* Tags */}
             <motion.div 
-              className="flex flex-wrap gap-2 pt-2"
-              initial={{ opacity: 0, y: 10 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: index * 0.1 + 0.5 }}
+              className="p-3 rounded-full bg-slate-100 group-hover:bg-slate-900 transition-colors flex-shrink-0"
+              whileHover={{ rotate: 45 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              {tags.map((tag, tagIndex) => (
-                <motion.div
-                  key={tagIndex}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Badge
-                    variant="secondary"
-                    className="bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors font-normal cursor-pointer"
-                  >
-                    {tag}
-                  </Badge>
-                </motion.div>
-              ))}
+              <ArrowUpRight size={20} className="text-slate-600 group-hover:text-white transition-colors" />
             </motion.div>
+          </div>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag, tagIndex) => (
+              <Badge
+                key={tagIndex}
+                variant="secondary"
+                className="bg-slate-100 text-slate-600 font-normal"
+              >
+                {tag}
+              </Badge>
+            ))}
           </div>
         </div>
       </motion.div>
@@ -101,43 +95,6 @@ const ProjectCard = ({ index, title, client, role, outcome, description, tags, i
 };
 
 const ProjectsSection = () => {
-  const [hoveredProject, setHoveredProject] = useState(null);
-
-  const projectsData = [
-    {
-      title: "Payment Checkout Reimagined",
-      client: "Razorpay",
-      role: "Lead Designer",
-      outcome: "23% improvement in checkout conversion rate",
-      description: "Complete redesign of the payment checkout experience focusing on trust signals, clarity, and speed.",
-      tags: ["Product Design", "User Research", "Design System"]
-    },
-    {
-      title: "Restaurant Discovery",
-      client: "Swiggy",
-      role: "Product Designer",
-      outcome: "40% increase in user engagement",
-      description: "Redesigned how users discover restaurants with personalized recommendations and intuitive filters.",
-      tags: ["Mobile App", "UX Design", "A/B Testing"]
-    },
-    {
-      title: "Healthcare Dashboard",
-      client: "Enterprise Client",
-      role: "UI/UX Designer",
-      outcome: "Reduced task completion time by 35%",
-      description: "Designed a comprehensive dashboard for healthcare professionals to manage patient data efficiently.",
-      tags: ["Enterprise", "Dashboard", "Data Visualization"]
-    },
-    {
-      title: "Fintech Mobile App",
-      client: "Startup",
-      role: "Design Lead",
-      outcome: "Launched to 50K+ users in first month",
-      description: "End-to-end design for a personal finance app targeting young professionals.",
-      tags: ["Mobile App", "Fintech", "Brand Identity"]
-    }
-  ];
-
   return (
     <section id="projects" className="py-24 lg:py-32 bg-white">
       <div className="max-w-6xl mx-auto px-6 lg:px-12">
@@ -157,16 +114,9 @@ const ProjectsSection = () => {
         </FadeUp>
 
         {/* Projects Grid */}
-        <div className="space-y-8">
-          {projectsData.map((project, index) => (
-            <ProjectCard
-              key={index}
-              index={index}
-              {...project}
-              isHovered={hoveredProject === index}
-              onHover={() => setHoveredProject(index)}
-              onLeave={() => setHoveredProject(null)}
-            />
+        <div className="grid md:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
       </div>

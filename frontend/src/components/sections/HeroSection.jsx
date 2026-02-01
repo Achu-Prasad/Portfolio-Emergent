@@ -2,49 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowDown, Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '../ui/button';
-import { personalInfo } from '../../data/mock';
-
-const workPreviews = [
-  {
-    id: 1,
-    title: "Payment Checkout Reimagined",
-    client: "Razorpay",
-    metric: "23% conversion increase",
-    color: "from-slate-100 to-slate-50"
-  },
-  {
-    id: 2,
-    title: "Restaurant Discovery",
-    client: "Swiggy",
-    metric: "40% engagement boost",
-    color: "from-amber-50 to-orange-50"
-  },
-  {
-    id: 3,
-    title: "Healthcare Dashboard",
-    client: "Enterprise",
-    metric: "35% faster tasks",
-    color: "from-emerald-50 to-teal-50"
-  },
-  {
-    id: 4,
-    title: "Fintech Mobile App",
-    client: "Startup",
-    metric: "50K+ users launched",
-    color: "from-blue-50 to-indigo-50"
-  }
-];
+import { personalInfo, projects } from '../../data/mock';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isHovered) return;
     
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % workPreviews.length);
-    }, 3000);
+      setCurrentIndex((prev) => (prev + 1) % projects.length);
+    }, 3500);
 
     return () => clearInterval(interval);
   }, [isHovered]);
@@ -63,7 +34,7 @@ const HeroSection = () => {
     }
   };
 
-  const currentWork = workPreviews[currentIndex];
+  const currentProject = projects[currentIndex];
 
   return (
     <section className="min-h-screen flex items-center justify-center relative bg-white overflow-hidden">
@@ -172,7 +143,7 @@ const HeroSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Content - Work Preview Carousel */}
+          {/* Right Content - Project Preview with Image */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -182,51 +153,68 @@ const HeroSection = () => {
             onMouseLeave={() => setIsHovered(false)}
           >
             <div className="relative">
-              {/* Work Preview Card */}
+              {/* Project Preview Card with Image */}
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={currentWork.id}
+                  key={currentProject.id}
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
                   transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className={`bg-gradient-to-br ${currentWork.color} rounded-2xl p-8 border border-slate-200/50 shadow-sm cursor-pointer group`}
-                  onClick={scrollToProjects}
+                  className="bg-white rounded-2xl overflow-hidden border border-slate-200/50 shadow-lg cursor-pointer group"
+                  onClick={() => navigate(`/project/${currentProject.slug}`)}
                 >
-                  <div className="mb-6">
-                    <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">
-                      Featured Work
-                    </span>
+                  {/* Image/Video Frame */}
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <motion.img
+                      src={currentProject.thumbnail}
+                      alt={currentProject.title}
+                      className="w-full h-full object-cover"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.6 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                    
+                    {/* Project Type Badge */}
+                    <div className="absolute top-4 left-4">
+                      <span className="text-xs uppercase tracking-wider text-white font-medium bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                        {currentProject.type}
+                      </span>
+                    </div>
                   </div>
                   
-                  <h3 className="text-2xl font-medium text-slate-900 mb-2 group-hover:text-slate-700 transition-colors">
-                    {currentWork.title}
-                  </h3>
-                  
-                  <p className="text-slate-600 mb-4">
-                    {currentWork.client}
-                  </p>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-900 bg-white/80 px-3 py-1.5 rounded-full">
-                      {currentWork.metric}
-                    </span>
-                    <motion.div
-                      className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center group-hover:bg-slate-800 transition-colors"
-                      whileHover={{ scale: 1.1, rotate: 45 }}
-                    >
-                      <ArrowRight size={18} className="text-white" />
-                    </motion.div>
+                  {/* Project Info */}
+                  <div className="p-6">
+                    <h3 className="text-xl font-medium text-slate-900 mb-1 group-hover:text-slate-700 transition-colors">
+                      {currentProject.title}
+                    </h3>
+                    
+                    <p className="text-slate-500 text-sm mb-4">
+                      {currentProject.subtitle}
+                    </p>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-2">
+                        {currentProject.tags.slice(0, 2).map((tag) => (
+                          <span key={tag} className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <motion.div
+                        className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center group-hover:bg-slate-800 transition-colors"
+                        whileHover={{ scale: 1.1, rotate: 45 }}
+                      >
+                        <ArrowRight size={18} className="text-white" />
+                      </motion.div>
+                    </div>
                   </div>
-
-                  {/* Decorative Element */}
-                  <div className="absolute top-4 right-4 w-20 h-20 rounded-full border border-slate-200/30 opacity-50" />
                 </motion.div>
               </AnimatePresence>
 
               {/* Progress Indicators */}
               <div className="flex justify-center gap-2 mt-6">
-                {workPreviews.map((_, index) => (
+                {projects.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
@@ -240,7 +228,7 @@ const HeroSection = () => {
                         className="absolute inset-0 bg-slate-900 rounded-full origin-left"
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
-                        transition={{ duration: 3, ease: "linear" }}
+                        transition={{ duration: 3.5, ease: "linear" }}
                         key={currentIndex}
                       />
                     )}
@@ -255,7 +243,7 @@ const HeroSection = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.8, duration: 0.5, type: "spring" }}
               >
-                <span className="text-sm font-medium text-slate-900">4+ Projects</span>
+                <span className="text-sm font-medium text-slate-900">{projects.length} Projects</span>
               </motion.div>
             </div>
           </motion.div>
