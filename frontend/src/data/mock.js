@@ -1,5 +1,9 @@
 // Mock data for Achu Prasad's Portfolio
 
+import preview1 from '../Assets/1 preview.png';
+import preview2 from '../Assets/2 preview.png';
+import preview3 from '../Assets/3 preview.png';
+
 export const personalInfo = {
   name: "Achu Prasad",
   role: "Product Designer",
@@ -57,7 +61,7 @@ export const projects = [
     tags: ["Mobile App", "Fintech", "UI/UX Design"],
     liveLink: null,
     prototypeLink: "https://figma.com/prototype/example",
-    thumbnail: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop",
+    thumbnail: preview1,
     heroMedia: {
       type: "image",
       url: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&h=800&fit=crop"
@@ -84,7 +88,7 @@ export const projects = [
     tags: ["Dashboard", "Healthcare", "Enterprise"],
     liveLink: null,
     prototypeLink: "https://figma.com/prototype/example",
-    thumbnail: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
+    thumbnail: preview2,
     heroMedia: {
       type: "image",
       url: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&h=800&fit=crop"
@@ -111,7 +115,7 @@ export const projects = [
     tags: ["Mobile App", "Food & Beverage", "Redesign"],
     liveLink: null,
     prototypeLink: "https://figma.com/prototype/example",
-    thumbnail: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop",
+    thumbnail: preview3,
     heroMedia: {
       type: "image",
       url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&h=800&fit=crop"

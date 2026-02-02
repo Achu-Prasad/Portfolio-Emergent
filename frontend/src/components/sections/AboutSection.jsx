@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { User } from 'lucide-react';
 import { aboutData, personalInfo } from '../../data/mock';
 import { FadeUp, SlideInLeft, SlideInRight, StaggerContainer, StaggerItem } from '../animations/MotionWrapper';
+import profilePic from '../../Assets/Profile Pic.jpg';
 
 const AboutSection = () => {
   const statsRef = useRef(null);
@@ -31,23 +31,25 @@ const AboutSection = () => {
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-20 items-start">
           {/* Photo Placeholder */}
           <SlideInLeft delay={0.2} className="lg:col-span-2">
-            <motion.div 
+            <motion.div
               className="aspect-[4/5] bg-slate-100 rounded-2xl overflow-hidden relative group"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <div className="absolute inset-0 flex items-center justify-center bg-slate-100">
-                <User size={80} className="text-slate-300" />
-              </div>
+              <img
+                src={profilePic}
+                alt={personalInfo.name}
+                className="w-full h-full object-cover"
+              />
               {/* Decorative Element */}
-              <motion.div 
+              <motion.div
                 className="absolute -bottom-4 -right-4 w-32 h-32 border-2 border-slate-200 rounded-2xl -z-10"
                 initial={{ opacity: 0, x: 20, y: 20 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
               />
             </motion.div>
-            <motion.p 
+            <motion.p
               className="text-sm text-slate-400 mt-4"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -82,7 +84,7 @@ const AboutSection = () => {
             </SlideInRight>
 
             {/* Stats */}
-            <motion.div 
+            <motion.div
               ref={statsRef}
               className="grid grid-cols-3 gap-8 pt-8 border-t border-slate-200"
             >
@@ -93,7 +95,7 @@ const AboutSection = () => {
                   animate={statsInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.7 + index * 0.15, duration: 0.5 }}
                 >
-                  <motion.p 
+                  <motion.p
                     className="text-3xl font-light text-slate-900"
                     initial={{ scale: 0.5 }}
                     animate={statsInView ? { scale: 1 } : {}}

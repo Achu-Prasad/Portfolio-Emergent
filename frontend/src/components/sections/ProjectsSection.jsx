@@ -25,9 +25,9 @@ const ProjectCard = ({ project, index }) => {
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
     >
-      <motion.div 
+      <motion.div
         className="bg-white rounded-2xl overflow-hidden border border-slate-200"
-        whileHover={{ 
+        whileHover={{
           borderColor: "rgba(148, 163, 184, 0.5)",
           boxShadow: "0 20px 40px -15px rgba(0,0,0,0.1)",
           y: -8
@@ -43,21 +43,20 @@ const ProjectCard = ({ project, index }) => {
             whileHover={{ scale: 1.08 }}
             transition={{ duration: 0.6 }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-          
+
           {/* Project Type Badge */}
-          <div className="absolute top-4 left-4">
+          {/* <div className="absolute top-4 left-4">
             <span className="text-xs uppercase tracking-wider text-white font-medium bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
               {project.type}
             </span>
-          </div>
+          </div> */}
 
           {/* Project Number */}
-          <div className="absolute bottom-4 right-4">
+          {/* <div className="absolute bottom-4 right-4">
             <span className="text-5xl font-light text-white/30">
               {String(index + 1).padStart(2, '0')}
             </span>
-          </div>
+          </div> */}
         </div>
 
         {/* Project Info */}
@@ -71,7 +70,7 @@ const ProjectCard = ({ project, index }) => {
                 {project.subtitle}
               </p>
             </div>
-            <motion.div 
+            <motion.div
               className="p-3 rounded-full bg-slate-100 group-hover:bg-slate-900 transition-colors flex-shrink-0"
               whileHover={{ rotate: 45 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}

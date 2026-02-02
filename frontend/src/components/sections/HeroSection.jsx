@@ -88,7 +88,7 @@ const HeroSection = () => {
 
             {/* Main Headline */}
             <motion.h1
-              className="text-3xl sm:text-3xl lg:text-3xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-1"
+              className="text-3xl sm:text-4xl lg:text-5xl font-light text-slate-900 mt-2 tracking-tight leading-[1.1] mb-1"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.7 }}
@@ -138,7 +138,7 @@ const HeroSection = () => {
                   variant="outline"
                   className="w-full border-slate-300 text-slate-700 hover:bg-slate-50 px-8 py-6 text-base rounded-full transition-all duration-300"
                 >
-                  Get in Touch
+                  Download CV
                 </Button>
               </motion.div>
             </motion.div>
@@ -174,42 +174,7 @@ const HeroSection = () => {
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.6 }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-
-                    {/* Project Type Badge */}
-                    {/* <div className="absolute top-4 left-4">
-                      <span className="text-xs uppercase tracking-wider text-white font-medium bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                        {currentProject.type}
-                      </span>
-                    </div> */}
                   </div>
-
-                  {/* Project Info */}
-                  {/* <div className="p-6">
-                    <h3 className="text-xl font-medium text-slate-900 mb-1 group-hover:text-slate-700 transition-colors">
-                      {currentProject.title}
-                    </h3>
-
-                    <p className="text-slate-500 text-sm mb-4">
-                      {currentProject.subtitle}
-                    </p> */}
-
-                  {/* <div className="flex items-center justify-between">
-                      <div className="flex gap-2">
-                        {currentProject.tags.slice(0, 2).map((tag) => (
-                          <span key={tag} className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <motion.div
-                        className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center group-hover:bg-slate-800 transition-colors"
-                        whileHover={{ scale: 1.1, rotate: 45 }}
-                      >
-                        <ArrowRight size={18} className="text-white" />
-                      </motion.div>
-                    </div> */}
-                  {/* </div> */}
                 </motion.div>
               </AnimatePresence>
 
@@ -235,16 +200,6 @@ const HeroSection = () => {
                   </button>
                 ))}
               </div>
-
-              {/* Floating Badge */}
-              {/* <motion.div
-                className="absolute -top-4 -right-4 bg-white rounded-full px-4 py-2 shadow-lg border border-slate-100"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.8, duration: 0.5, type: "spring" }}
-              >
-                <span className="text-sm font-medium text-slate-900">{projects.length} Projects</span>
-              </motion.div> */}
             </div>
           </motion.div>
         </div>
