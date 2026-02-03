@@ -131,9 +131,9 @@ const Header = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden border-t border-slate-100 bg-white"
+              className="md:hidden overflow-hidden bg-white/95 backdrop-blur-md rounded-3xl mx-4 mt-2 shadow-lg border border-slate-100"
             >
-              <div className="py-6">
+              <div className="py-6 px-4">
                 <div className="flex flex-col gap-2">
                   {navItems.map((item, index) => (
                     <motion.button
