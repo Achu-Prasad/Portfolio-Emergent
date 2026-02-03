@@ -60,18 +60,13 @@ const Header = () => {
               <motion.button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className="text-sm text-slate-600 hover:text-slate-900 transition-colors relative group"
+                className="text-sm text-slate-500 hover:text-slate-900 transition-colors duration-200 relative group"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 + 0.3 }}
-                whileHover={{ y: -2 }}
               >
                 {item.name}
-                <motion.span
-                  className="absolute -bottom-1 left-0 w-0 h-px bg-slate-900"
-                  whileHover={{ width: "100%" }}
-                  transition={{ duration: 0.3 }}
-                />
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-slate-900 transition-all duration-200 ease-out group-hover:w-full" />
               </motion.button>
             ))}
             <motion.div
@@ -83,8 +78,7 @@ const Header = () => {
             >
               <Button
                 onClick={() => scrollToSection('#contact')}
-                className="text-sm px-5 py-2 rounded-full transition-all duration-300 text-slate-900 font-medium"
-                style={{ backgroundColor: '#E3F410' }}
+                className="text-sm px-5 py-2.5 rounded-xl transition-all duration-300 bg-slate-800 hover:bg-slate-700 text-white font-medium"
               >
                 Get in Touch
               </Button>
@@ -122,18 +116,20 @@ const Header = () => {
             </AnimatePresence>
           </motion.button>
         </nav>
+      </div>
 
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden bg-white/95 backdrop-blur-md rounded-3xl mx-4 mt-2 shadow-lg border border-slate-100"
-            >
-              <div className="py-6 px-4">
+      {/* Mobile Navigation - Outside the max-w container for proper alignment */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden w-full px-6"
+          >
+            <div className="overflow-hidden bg-white/95 backdrop-blur-md rounded-3xl shadow-lg border border-slate-100">
+              <div className="py-6 px-6">
                 <div className="flex flex-col gap-2">
                   {navItems.map((item, index) => (
                     <motion.button
@@ -163,10 +159,10 @@ const Header = () => {
                   </motion.div>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDown, Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowDown, Sparkles } from 'lucide-react';
+import { ArrowRight, FileText } from '@phosphor-icons/react';
 import { Button } from '../ui/button';
 import { personalInfo, projects } from '../../data/mock';
 import { useNavigate } from 'react-router-dom';
@@ -138,22 +139,23 @@ const HeroSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.7 }}
               >
-                <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button
                     onClick={scrollToProjects}
-                    className="w-full px-8 py-6 text-base rounded-full transition-all duration-300 hover:shadow-lg text-slate-900 font-medium"
-                    style={{ backgroundColor: '#E3F410' }}
+                    className="w-full flex items-center justify-center gap-2 px-6 py-6 text-sm rounded-xl transition-all duration-300 hover:shadow-lg bg-slate-800 hover:bg-slate-700 text-white font-medium"
                   >
                     View My Work
+                    <ArrowDown size={16} weight="bold" />
                   </Button>
                 </motion.div>
-                <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button
                     onClick={scrollToContact}
                     variant="outline"
-                    className="w-full border-slate-300 text-slate-700 hover:bg-slate-50 px-8 py-6 text-base rounded-full transition-all duration-300"
+                    className="w-full flex items-center justify-center gap-2 border-slate-300 bg-white text-slate-700 hover:bg-slate-50 px-6 py-6 text-sm rounded-xl transition-all duration-300"
                   >
                     Download CV
+                    <FileText size={16} weight="bold" />
                   </Button>
                 </motion.div>
               </motion.div>
@@ -199,19 +201,10 @@ const HeroSection = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentIndex(index)}
-                      className="group relative"
+                      className="group"
                     >
-                      <div className={`w-8 h-1 rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-slate-900' : 'bg-slate-200 hover:bg-slate-300'
+                      <div className={`w-8 h-1.5 rounded-sm transition-all duration-300 ${index === currentIndex ? 'bg-slate-900' : 'bg-slate-300 hover:bg-slate-500'
                         }`} />
-                      {index === currentIndex && !isHovered && (
-                        <motion.div
-                          className="absolute inset-0 bg-slate-900 rounded-full origin-left"
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          transition={{ duration: 3.5, ease: "linear" }}
-                          key={currentIndex}
-                        />
-                      )}
                     </button>
                   ))}
                 </div>
