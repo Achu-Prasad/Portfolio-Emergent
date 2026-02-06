@@ -187,8 +187,7 @@ const Header = () => {
                   >
                     <Button
                       onClick={() => scrollToSection('#contact')}
-                      className="text-sm px-5 py-3 rounded-full mt-2 w-full text-slate-900 font-medium"
-                      style={{ backgroundColor: '#E3F410' }}
+                      className="text-sm px-5 py-2.5 rounded-xl mt-2 w-full bg-slate-800 hover:bg-slate-700 text-white font-medium transition-all duration-300"
                     >
                       Get in Touch
                     </Button>

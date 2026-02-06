@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, useScroll, useSpring, useTransform, useInView } from 'framer-motion';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { projects } from '../data/mock';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Play } from "@phosphor-icons/react";
 import Footer from '../components/layout/Footer';
+import ContactSection from '../components/sections/ContactSection';
 
 // Spring config for smooth animations
 const smoothSpringConfig = { stiffness: 80, damping: 25, restDelta: 0.001 };
@@ -20,6 +21,52 @@ const ExternalIcon = () => (
 const PlayIcon = () => (
   <Play size={16} weight="bold" />
 );
+
+// Smart Video component with visibility tracking
+const SmartVideo = ({ src, className }) => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Ensure video starts from beginning when source changes or component mounts
+    video.currentTime = 0;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Play when 50% or more is visible
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          video.play().catch(error => {
+            console.log("Autoplay blocked:", error);
+          });
+        }
+        // Stop when less than 30% is visible (70% off)
+        else if (entry.intersectionRatio < 0.3) {
+          video.pause();
+        }
+      },
+      {
+        // Observe at both play (0.5) and pause (0.3) thresholds
+        threshold: [0.3, 0.5]
+      }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [src]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      loop
+      muted
+      playsInline
+      className={className}
+    />
+  );
+};
 
 const InfoSection = ({ title, children, index }) => {
   const ref = useRef(null);
@@ -125,6 +172,22 @@ const NextProjectCard = ({ project, direction }) => {
   );
 };
 
+// Helper to render text with **semi-bold** markers
+const formatText = (text) => {
+  if (!text) return null;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <span key={i} className="font-semibold text-slate-900 dark:text-white border-b border-slate-200 dark:border-white/10 pb-0.5">
+          {part.slice(2, -2)}
+        </span>
+      );
+    }
+    return part;
+  });
+};
+
 const ProjectDetailsV2 = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -136,17 +199,47 @@ const ProjectDetailsV2 = () => {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, smoothSpringConfig);
 
+  const { scrollY } = useScroll();
+  const [showBackButton, setShowBackButton] = React.useState(project.showHero || window.innerWidth >= 1024);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    return scrollY.onChange((current) => {
+      const diff = current - lastScrollY.current;
+      // Show when near top (if hero exists) or when scrolling up
+      if (current < 10) {
+        setShowBackButton(project.showHero || window.innerWidth >= 1024);
+      } else if (diff > 5) {
+        // Scrolling down - hide
+        setShowBackButton(false);
+      } else if (diff < -5) {
+        // Scrolling up - show
+        setShowBackButton(true);
+      }
+      lastScrollY.current = current;
+    });
+  }, [scrollY, project.showHero]);
+
   if (!project) return <div className="min-h-screen flex items-center justify-center font-sans">Project not found</div>;
 
   const galleryData = project.gallery || [];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a0a0a] font-sans text-slate-900 selection:bg-[#e2ff31] selection:text-black antialiased">
+    <div className="min-h-screen bg-white dark:bg-[#0a0a0a] font-sans text-slate-900 antialiased">
       {/* Scroll Progress Indicator */}
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-[#0f172a] dark:bg-[#e2ff31] origin-left z-[110]" style={{ scaleX }} />
 
       {/* Back Button */}
-      <div className="flex fixed top-6 left-6 lg:top-12 lg:left-12 z-[100]">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{
+          opacity: showBackButton ? 1 : (window.innerWidth >= 1024 ? 1 : 0),
+          y: showBackButton ? 0 : (window.innerWidth >= 1024 ? 0 : -20),
+          pointerEvents: showBackButton ? "auto" : (window.innerWidth >= 1024 ? "auto" : "none")
+        }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
+        className="flex fixed top-6 left-6 lg:top-12 lg:left-12 z-[100]"
+      >
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -163,41 +256,43 @@ const ProjectDetailsV2 = () => {
           <div className="flex items-center justify-center transition-transform group-hover:-translate-x-1 duration-300">
             <BackIcon />
           </div>
-          <span className="text-[10px] font-bold tracking-widest uppercase font-sans">Back</span>
+          <span className="text-[14px] font-medium font-sans">Back</span>
         </motion.button>
-      </div>
+      </motion.div>
 
-      <div className="max-w-[1100px] mx-auto pt-8 lg:pt-12 px-6">
-        {/* Hero Graphic */}
-        <motion.div
-          initial={{ opacity: 0, y: -60, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{
-            duration: 1.2,
-            ease: [0.16, 1, 0.3, 1],
-            opacity: { duration: 0.8 }
-          }}
-          className="w-full h-[350px] md:h-[550px] rounded-[24px] overflow-hidden bg-[#d9d9d9] dark:bg-slate-900 shadow-xl relative group"
-        >
-          {project.heroMedia?.type === 'video' ? (
-            <video src={project.heroMedia.url} autoPlay loop muted playsInline className="w-full h-full object-cover" />
-          ) : (
-            <img
-              src={project.heroMedia?.url || project.thumbnail}
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
-          )}
-        </motion.div>
+      <div className="max-w-[1100px] mx-auto pt-6 lg:pt-12 px-6">
+        {/* Toggle this to show/hide hero image */}
+        {project.showHero && (
+          <motion.div
+            initial={{ opacity: 0, y: -60, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{
+              duration: 1.2,
+              ease: [0.16, 1, 0.3, 1],
+              opacity: { duration: 0.8 }
+            }}
+            className="w-full h-[350px] md:h-[550px] rounded-[24px] overflow-hidden bg-[#d9d9d9] dark:bg-slate-900 shadow-xl relative group mb-16"
+          >
+            {project.heroMedia?.type === 'video' ? (
+              <SmartVideo src={project.heroMedia.url} className="w-full h-full object-cover" />
+            ) : (
+              <img
+                src={project.heroMedia?.url || project.thumbnail}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+            )}
+          </motion.div>
+        )}
 
         {/* Narrative Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: [0.215, 0.61, 0.355, 1] }}
-          className="mt-16 space-y-4"
+          className="space-y-4"
         >
-          <h1 className="text-3xl md:text-3xl font-medium leading-none tracking-tight text-[#0f172b] dark:text-white">
+          <h1 className="text-3xl md:text-4xl font-medium leading-none tracking-tight text-[#0f172b] dark:text-white">
             {project.title}
           </h1>
           <motion.div
@@ -213,9 +308,10 @@ const ProjectDetailsV2 = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.215, 0.61, 0.355, 1] }}
-          className="mt-10 text-base md:text-lg leading-[1.6] text-slate-700 dark:text-slate-300 font-normal max-w-4xl font-sans"
+          className="mt-10 text-base md:text-lg text-slate-700 dark:text-slate-300 font-normal w-full font-sans"
+          style={{ lineHeight: '1.8' }}
         >
-          {project.description}
+          {formatText(project.description)}
         </motion.p>
 
         {/* Divider Line */}
@@ -271,63 +367,89 @@ const ProjectDetailsV2 = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col gap-4 w-full lg:w-[240px] shrink-0"
           >
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full flex items-center justify-between px-6 py-4 text-sm rounded-xl transition-all duration-300 hover:shadow-lg bg-slate-800 hover:bg-slate-700 text-white font-medium font-sans"
+            >
+              Video Explanation
+              <PlayIcon />
+            </motion.button>
             {project.liveLink && (
               <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="w-full">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-between px-6 py-4 text-sm rounded-xl transition-all duration-300 hover:shadow-lg bg-slate-800 hover:bg-slate-700 text-white font-medium font-sans"
+                  className="w-full flex items-center justify-between px-6 py-4 text-sm rounded-xl transition-all duration-300 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-900 dark:text-white font-medium font-sans hover:shadow-md"
                 >
-                  Live Project
+                  Live Website
                   <ExternalIcon />
                 </motion.button>
               </a>
             )}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full flex items-center justify-between px-6 py-4 text-sm rounded-xl transition-all duration-300 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-900 dark:text-white font-medium font-sans hover:shadow-md"
-            >
-              Video Demo
-              <PlayIcon />
-            </motion.button>
+            {project.prototypeLink && (
+              <a href={project.prototypeLink} target="_blank" rel="noopener noreferrer" className="w-full">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full flex items-center justify-between px-6 py-4 text-sm rounded-xl transition-all duration-300 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 text-slate-900 dark:text-white font-medium font-sans hover:shadow-md"
+                >
+                  View Prototype
+                  <ExternalIcon />
+                </motion.button>
+              </a>
+            )}
           </motion.div>
         </div>
 
         {/* Visualization Sequence */}
-        <div className="mt-24 space-y-24">
+        <div className="mt-16 md:mt-24 space-y-12 md:space-y-24">
           {galleryData.map((item, index) => (
             <ScrollRevealItem key={index}>
-              <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-5 md:gap-10">
                 <div className="w-full rounded-[24px] overflow-hidden bg-slate-50 dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-white/5 group">
                   <div className="overflow-hidden">
                     {item.type === 'video' ? (
-                      <video src={item.url} autoPlay loop muted playsInline className="w-full h-auto" />
+                      <SmartVideo src={item.url} className="w-full h-auto" />
                     ) : (
                       <img src={item.url} alt={item.caption} className="w-full h-auto transition-transform duration-1000 group-hover:scale-105" />
                     )}
                   </div>
                 </div>
                 {item.caption && (
-                  <div className="px-1">
-                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 font-sans">{item.caption}</p>
-                  </div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="w-full text-left px-1"
+                  >
+                    <p
+                      className="text-base md:text-lg text-slate-700 dark:text-slate-300 font-normal font-sans"
+                      style={{ lineHeight: '1.8' }}
+                    >
+                      {formatText(item.caption)}
+                    </p>
+                  </motion.div>
                 )}
               </div>
             </ScrollRevealItem>
           ))}
         </div>
 
-        {/* Final Progression - Matching ProjectDetailPage grid */}
-        <div className="mt-48 py-24 border-t border-slate-100 dark:border-white/5">
+      </div>
+
+      {/* Final Progression - Discover More with full-width background */}
+      <div className="mt-48 py-32 bg-slate-50 dark:bg-slate-900/40 border-y border-slate-100 dark:border-white/5">
+        <div className="max-w-[1100px] mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="flex flex-col items-center mb-16 text-center"
           >
-            <span className="text-xs tracking-[0.5em] uppercase opacity-30 mb-4 font-bold text-slate-500 dark:text-slate-400 font-sans">
-              Discover More
+            <span className="text-xs tracking-[0.5em] uppercase opacity-40 mb-4 font-bold text-slate-500 dark:text-slate-400 font-sans">
+              Continue Exploring
             </span>
           </motion.div>
 
@@ -350,14 +472,10 @@ const ProjectDetailsV2 = () => {
               <NextProjectCard project={nextProject} direction="next" />
             </motion.div>
           </div>
-
-          <div className="mt-24 flex justify-center">
-            <Link to="/#contact" className="text-[10px] uppercase tracking-[0.4em] font-bold border-b-2 border-slate-900 dark:border-white pb-3 hover:opacity-50 transition-all font-sans">
-              Let's Talk
-            </Link>
-          </div>
         </div>
       </div>
+
+      <ContactSection />
       <Footer />
     </div>
   );

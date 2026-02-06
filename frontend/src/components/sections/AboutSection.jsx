@@ -3,15 +3,15 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { aboutData, personalInfo } from '../../data/mock';
 import { FadeUp, SlideInLeft, SlideInRight, StaggerContainer, StaggerItem } from '../animations/MotionWrapper';
-import profilePic from '../../Assets/Profile Pic.jpg';
+import profilePic from '../../Assets/Profile Pic.jpeg';
 
 const AboutSection = () => {
   const statsRef = useRef(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
 
   const stats = [
-    { number: "4 Yrs", label: "Years In Design" },
-    { number: "6 Mo", label: "UI/UX Experience" },
+    { number: "4 Years", label: "Years In Design" },
+    { number: "6 Months", label: "UI/UX Experience" },
     { number: "10+", label: "Projects Delivered" }
   ];
 
@@ -96,7 +96,7 @@ const AboutSection = () => {
                   transition={{ delay: 0.7 + index * 0.15, duration: 0.5 }}
                 >
                   <motion.p
-                    className="text-2xl font-light text-slate-900"
+                    className="text-base md:text-2xl font-light text-slate-900"
                     initial={{ scale: 0.5 }}
                     animate={statsInView ? { scale: 1 } : {}}
                     transition={{ delay: 0.8 + index * 0.15, type: "spring", stiffness: 200 }}
