@@ -22,7 +22,7 @@ const AboutSection = () => {
         <FadeUp>
           <div className="mb-16">
             <span className="text-sm text-slate-500 tracking-wide uppercase">About</span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-slate-900 mt-2 tracking-tight">
+            <h2 className="text-3xl sm:text-3xl lg:text-3xl font-medium text-slate-900 mt-2 tracking-tight">
               A bit about me
             </h2>
           </div>

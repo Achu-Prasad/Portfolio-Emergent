@@ -110,7 +110,7 @@ const ProjectsSection = () => {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-4">
             <div>
               <span className="text-sm text-slate-500 tracking-wide uppercase">Work</span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-slate-900 mt-2 tracking-tight">
+              <h2 className="text-3xl sm:text-3xl lg:text-3xl font-medium text-slate-900 mt-2 tracking-tight">
                 Selected Projects
               </h2>
             </div>

@@ -292,8 +292,11 @@ const ProjectDetailsV2 = () => {
           transition={{ duration: 0.8, delay: 0.3, ease: [0.215, 0.61, 0.355, 1] }}
           className="space-y-4"
         >
-          <h1 className="text-3xl md:text-4xl font-medium leading-none tracking-tight text-[#0f172b] dark:text-white">
-            {project.title}
+          <h1
+            className="text-3xl md:text-4xl font-medium tracking-tight text-[#0f172b] dark:text-white"
+            style={{ lineHeight: 1.6 }}
+          >
+            {project.detailsTitle || project.title}
           </h1>
           <motion.div
             initial={{ scaleX: 0 }}

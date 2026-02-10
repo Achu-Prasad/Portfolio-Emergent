@@ -32,13 +32,16 @@ html {
     width: 100%;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: 'Livvic', sans-serif;
+@layer base {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
 }
 
 code {

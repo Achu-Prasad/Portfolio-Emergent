@@ -17,7 +17,7 @@ const ContactSection = () => {
           {/* Left Content */}
           <SlideInLeft>
             <span className="text-sm text-slate-500 tracking-wide uppercase">Contact</span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-slate-900 mt-2 tracking-tight">
+            <h2 className="text-3xl sm:text-3xl lg:text-3xl font-medium text-slate-900 mt-2 tracking-tight">
               Let's work together
             </h2>
             <p className="text-lg text-slate-600 mt-6 leading-relaxed">

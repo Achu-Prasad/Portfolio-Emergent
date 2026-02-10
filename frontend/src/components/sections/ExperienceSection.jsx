@@ -52,7 +52,7 @@ const ExperienceSection = () => {
         <FadeUp>
           <div className="mb-10 sm:mb-16">
             <span className="text-xs sm:text-sm text-slate-500 tracking-wide uppercase">Experience</span>
-            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-light text-slate-900 mt-2 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-3xl font-medium text-slate-900 mt-2 tracking-tight">
               Where I've worked
             </h2>
           </div>

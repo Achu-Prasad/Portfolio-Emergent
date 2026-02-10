@@ -120,16 +120,26 @@ const OtherWorksSection = () => {
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12">
                 {/* Section Header */}
                 <FadeUp>
-                    <div className="mb-10 sm:mb-16">
-                        <span className="text-xs sm:text-sm text-slate-500 tracking-wide uppercase">Experiments</span>
-                        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-light text-slate-900 mt-2 tracking-tight">
-                            Other Works
-                        </h2>
-                        <p className="text-slate-500 mt-4 max-w-xl">
+                    <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 sm:mb-12 gap-4">
+                        <div>
+                            <span className="text-xs sm:text-sm text-slate-500 tracking-wide uppercase">Experiments</span>
+                            <h2 className="text-3xl sm:text-3xl lg:text-3xl font-medium text-slate-900 mt-2 tracking-tight">
+                                Other Works
+                            </h2>
+                        </div>
+                        <p className="text-slate-500 max-w-sm">
                             A collection of various creative projects, explorations, and experiments outside of my main product design work.
                         </p>
                     </div>
                 </FadeUp>
+
+                <motion.div
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    whileInView={{ opacity: 1, scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, ease: "circOut" }}
+                    className="h-px bg-slate-100 dark:bg-slate-800 w-full mb-12 sm:mb-16 origin-left"
+                />
 
                 {/* Media Gallery */}
                 {otherWorks.length > 0 ? (
