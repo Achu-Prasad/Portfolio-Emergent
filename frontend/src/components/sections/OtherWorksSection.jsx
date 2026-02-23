@@ -70,11 +70,11 @@ const MediaItem = ({ item, index, onHoverChange }) => {
                     />
                 )}
 
-                {/* Glassmorphism info badge - Hidden on hover if link exists */}
+                {/* Pure White info badge - Simple and clean */}
                 {item.caption && (
                     <div className={`absolute bottom-4 left-4 sm:bottom-6 sm:left-6 transition-all duration-300 pointer-events-none ${item.showLink ? 'group-hover:opacity-0 group-hover:translate-y-2' : ''}`}>
-                        <div className="bg-[#d1e2d3]/90 backdrop-blur-md border border-[#c1d2c3] rounded-full px-4 py-2 sm:px-5 sm:py-2.5 shadow-lg shadow-black/5">
-                            <p className="text-slate-800 text-xs sm:text-sm font-semibold tracking-tight">
+                        <div className="bg-white border border-slate-200 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 shadow-md">
+                            <p className="text-slate-900 text-xs sm:text-sm font-semibold tracking-tight">
                                 {item.caption}
                             </p>
                         </div>
@@ -84,8 +84,8 @@ const MediaItem = ({ item, index, onHoverChange }) => {
                 {/* Link Button - Appears on Hover at Bottom Left */}
                 {item.showLink && item.link && (
                     <>
-                        {/* Subtle Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[inherit]" />
+                        {/* More Subtle Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-black/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[inherit]" />
 
                         <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
                             <motion.a
@@ -94,7 +94,7 @@ const MediaItem = ({ item, index, onHoverChange }) => {
                                 rel="noopener noreferrer"
                                 initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                className="px-5 py-2 rounded-full border border-white/20 bg-[#d1e2d3] text-slate-800 text-sm font-bold backdrop-blur-md hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2 shadow-xl shadow-black/10 group/btn"
+                                className="px-5 py-2 rounded-full border border-slate-200 bg-white text-slate-900 text-sm font-bold shadow-lg hover:bg-slate-50 transition-all duration-300 flex items-center gap-2 group/btn"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 View Project

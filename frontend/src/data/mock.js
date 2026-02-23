@@ -28,7 +28,7 @@ export const personalInfo = {
   name: "Achu Prasad",
   role: "Product Designer",
   tagline: "I design with clarity, intention, and empathy.",
-  statement: "I’m a Product Designer with 2+ years of design experience, focused on building thoughtful digital products. I turn complex problems into simple, intuitive, and scalable user experiences.Curious, analytical, and ownership-driven, I design with clarity, purpose, and usability at the core.",
+  statement: "I’m a aspiring product designer with 2+ years of graphic design experience, focused on building thoughtful digital products. I am super curious, highly analytical, and ownership-driven person, I design with clarity, purpose, and usability at the core.",
   email: "achuprasad@zohomail.in",
 
   location: "Kerala, India",
