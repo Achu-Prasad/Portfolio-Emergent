@@ -9,7 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />

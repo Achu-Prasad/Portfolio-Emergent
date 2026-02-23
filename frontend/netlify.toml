@@ -1,0 +1,9 @@
+[build]
+  # Using CI=false prevents Netlify from failing the build if your code has minor warnings
+  command = "CI=false npm run build" 
+  publish = "build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
