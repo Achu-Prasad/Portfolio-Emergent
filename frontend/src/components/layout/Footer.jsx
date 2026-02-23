@@ -10,7 +10,7 @@ const Footer = () => {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <motion.footer 
+    <motion.footer
       ref={ref}
       className="bg-slate-50 border-t border-slate-100"
       initial={{ opacity: 0 }}
@@ -20,7 +20,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto px-6 lg:px-12 py-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           {/* Left Section */}
-          <motion.div 
+          <motion.div
             className="space-y-3"
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -34,40 +34,22 @@ const Footer = () => {
             </p>
           </motion.div>
 
-          {/* Social Links */}
-          <motion.div 
-            className="flex flex-wrap gap-6"
+          {/* Funny Text */}
+          <motion.div
+            className="md:text-right"
             initial={{ opacity: 0, x: 20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.3 }}
           >
-            {socialLinks.map((link, index) => (
-              <motion.a
-                key={link.name}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-slate-600 hover:text-slate-900 transition-colors flex items-center gap-1 group"
-                initial={{ opacity: 0, y: 10 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.4 + index * 0.1 }}
-                whileHover={{ y: -2 }}
-              >
-                {link.name}
-                <motion.span
-                  initial={{ opacity: 0, x: -5, y: 5 }}
-                  whileHover={{ opacity: 1, x: 0, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <ArrowUpRight size={14} />
-                </motion.span>
-              </motion.a>
-            ))}
+            <p className="text-sm text-slate-500 font-medium italic leading-relaxed">
+              "No blueprints, just vibes. <br className="hidden md:block" />
+              This entire portfolio was vibe-coded into existence ✨"
+            </p>
           </motion.div>
         </div>
 
         {/* Bottom Section */}
-        <motion.div 
+        <motion.div
           className="mt-12 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -76,17 +58,17 @@ const Footer = () => {
           <p className="text-sm text-slate-500">
             © {currentYear} {personalInfo.name}. All rights reserved.
           </p>
-          <motion.p 
+          <motion.p
             className="text-sm text-slate-400 flex items-center gap-1"
             whileHover={{ scale: 1.05 }}
           >
-            Crafted with 
+            Crafted with
             <motion.span
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
               <Heart size={14} className="text-red-400" />
-            </motion.span> 
+            </motion.span>
             and intention
           </motion.p>
         </motion.div>
