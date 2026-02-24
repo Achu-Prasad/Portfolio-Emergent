@@ -28,7 +28,7 @@ export const personalInfo = {
   name: "Achu Prasad",
   role: "Product Designer",
   tagline: "I design with clarity, intention, and empathy.",
-  statement: "I’m a aspiring product designer with 2+ years of graphic design experience, focused on building thoughtful digital products. I am super curious, highly analytical, and ownership-driven person, I design with clarity, purpose, and usability at the core.",
+  statement: "I am a simple, grounded product designer with a curious mind and a heart for people and nature. I design with clarity, kindness, and the hope of making life a little more peaceful.",
   email: "achuprasad@zohomail.in",
 
   location: "Kerala, India",
@@ -53,7 +53,7 @@ export const workExperience = [
     role: "Product Design Intern",
     company: "Bassenine",
     duration: "OCT 2025 — JAN 2026",
-    impact: "I’m a Product Designer with 2+ years of design experience, focused on building thoughtful digital products. I turn complex problems into simple, intuitive, and scalable user experiences.Curious, analytical, and ownership-driven, I design with clarity, purpose, and usability at the core."
+    impact: "Designed user-centric experiences across B2B SaaS, B2B services, and consumer products. Led end-to-end website redesigns for live products, contributing to 6+ major web projects. Built scalable design systems, delivered clean developer handoffs, and supported branding through decks and social creatives across diverse domains."
   },
   {
     id: 2,
