@@ -2,15 +2,6 @@
 
 // Guidly project images
 import guidlyPreview from '../Assets/Guidly/preview.png';
-import guidlyPreviewLong from '../Assets/Guidly/3 preview.png';
-import guidly1 from '../Assets/Guidly/Desktop - 1.png';
-import guidly2 from '../Assets/Guidly/Desktop - 2.png';
-import guidly3 from '../Assets/Guidly/Desktop - 3.png';
-import guidly4 from '../Assets/Guidly/Desktop - 4.png';
-import guidly5 from '../Assets/Guidly/Desktop - 5.png';
-import guidly6 from '../Assets/Guidly/Desktop - 6.png';
-import guidly7 from '../Assets/Guidly/Desktop - 7.png';
-import guidly8 from '../Assets/Guidly/Desktop - 8.png';
 
 // ICG project assets
 import icgPreview from '../Assets/ICG/preview.png';
@@ -112,16 +103,7 @@ export const projects = [
       type: "image",
       url: guidlyPreview
     },
-    gallery: [
-      { type: "image", url: guidly1, sectionTitle: "Dashboard Overview", caption: "Dashboard Overview" },
-      { type: "image", url: guidly2, sectionTitle: "Expense Tracking", caption: "Expense Tracking" },
-      { type: "image", url: guidly3, sectionTitle: "Budget Planning", caption: "Budget Planning" },
-      { type: "image", url: guidly4, sectionTitle: "Savings Goals", caption: "Savings Goals" },
-      { type: "image", url: guidly5, sectionTitle: "Transaction History", caption: "Transaction History" },
-      { type: "image", url: guidly6, sectionTitle: "Analytics View", caption: "Analytics View" },
-      { type: "image", url: guidly7, sectionTitle: "User Profile", caption: "User Profile" },
-      { type: "image", url: guidly8, sectionTitle: "Settings & Preferences", caption: "Settings & Preferences" }
-    ]
+    gallery: []
   },
   {
     id: 2,

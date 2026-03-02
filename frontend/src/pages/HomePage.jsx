@@ -17,9 +17,9 @@ const HomePage = () => {
       <main>
         <HeroSection />
         <ProjectsSection />
-        <OtherWorksSection />
         <AboutSection />
         <ExperienceSection />
+        <OtherWorksSection />
         {/* <ValuesSection /> */}
         {/* <WhyIDesignSection /> */}
         <ContactSection />
